@@ -118,7 +118,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
@@ -136,23 +135,31 @@ public class MainActivity extends AppCompatActivity
         UiSettings locationButton = mMap.getUiSettings();
         locationButton.setMyLocationButtonEnabled(true);    }
 
-    private void agregarMarcador(double lat, double lngt) {
+
+//Probar este método para agregar marcadores y que pueda ser llamado cuando el usuario quiera
+//introducir un nuevo lugar para que quede en una base de datos
+
+    private void agregarMarcador(double lat, double lngt, String title, String snippet) {
         LatLng coordenadas = new LatLng(lat, lngt);
         CameraUpdate miUbicacion = CameraUpdateFactory.newLatLngZoom(coordenadas, 25);
         if (marcador != null) marcador.remove();
         marcador = mMap.addMarker(new MarkerOptions()
                 .position(coordenadas)
-                .title("I'm here")
+                .title(title)
+                .snippet(snippet)
                 .icon(BitmapDescriptorFactory.fromResource(R.id.icon_only)));
-        mMap.animateCamera(miUbicacion);
     }
 
     private void actualizarUbicacion(Location location) {
         if (location != null) {
             lat = location.getLatitude();
             lngt = location.getLongitude();
-            agregarMarcador(lat, lngt);
+            String title = "I'm here";
+            String snippet = "Estas en la ciudad de Cali";
+            agregarMarcador(lat, lngt, title, snippet);
             Log.d("responseAns", "funciona metodo" + lat + lngt);
+            
+            mMap.animateCamera(miUbicacion);
         }
     }
 
